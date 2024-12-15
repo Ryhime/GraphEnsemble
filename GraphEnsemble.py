@@ -31,10 +31,10 @@ class GraphEnsemble(torch.nn.Module):
         x, edge_index = data.x, data.edge_index
 
         if (len(self.models) >= 1):
-            ensembleOut = F.gelu(self.models[0](x, edge_index))*(self.w[0] if self.usesWeightedEnsemble else 1)
+            ensembleOut = F.relu(self.models[0](x, edge_index))*(self.w[0] if self.usesWeightedEnsemble else 1)
 
             for i in range(1, len(self.models)):
-                ensembleOut += F.gelu(self.models[i](x, edge_index))*(self.w[i] if self.usesWeightedEnsemble else 1)
+                ensembleOut += F.relu(self.models[i](x, edge_index))*(self.w[i] if self.usesWeightedEnsemble else 1)
         else:
             ensembleOut = x
 
